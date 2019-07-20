@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2019 at 06:18 AM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.2.14
+-- Generation Time: Jul 20, 2019 at 09:16 AM
+-- Server version: 10.1.34-MariaDB
+-- PHP Version: 7.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -40,34 +40,7 @@ CREATE TABLE `table_groups` (
 
 INSERT INTO `table_groups` (`id`, `name`, `description`) VALUES
 (1, 'admin', 'Administrator'),
-(2, 'members', 'General User'),
-(3, 'tesaaa', 'asdaasa');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `table_group_access`
---
-
-CREATE TABLE `table_group_access` (
-  `id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `menu_id` int(11) NOT NULL,
-  `c` tinyint(1) NOT NULL,
-  `r` tinyint(1) NOT NULL,
-  `u` tinyint(1) NOT NULL,
-  `d` tinyint(1) NOT NULL,
-  `s` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `table_group_access`
---
-
-INSERT INTO `table_group_access` (`id`, `group_id`, `menu_id`, `c`, `r`, `u`, `d`, `s`) VALUES
-(4, 2, 18, 0, 0, 0, 0, 0),
-(8, 1, 18, 0, 0, 0, 0, 0),
-(9, 1, 19, 0, 0, 0, 0, 0);
+(2, 'members', 'General User');
 
 -- --------------------------------------------------------
 
@@ -417,12 +390,13 @@ CREATE TABLE `table_login_attempts` (
 --
 
 CREATE TABLE `table_menus` (
-  `id` int(11) NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
+  `menu_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(100) NOT NULL,
   `link` varchar(50) NOT NULL,
+  `list_id` varchar(200) NOT NULL,
   `icon` varchar(50) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `attribute` text NOT NULL,
   `position` tinyint(4) NOT NULL,
   `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -431,9 +405,12 @@ CREATE TABLE `table_menus` (
 -- Dumping data for table `table_menus`
 --
 
-INSERT INTO `table_menus` (`id`, `name`, `link`, `icon`, `status`, `attribute`, `position`, `description`) VALUES
-(18, 'Dashboard', 'admin', 'home', 1, 'fa fa-home', 1, 'Halaman Utama'),
-(19, 'Setting', 'setting', 'settings', 1, 'fa fa-cog', 2, 'Menu pengaturan');
+INSERT INTO `table_menus` (`id`, `menu_id`, `name`, `link`, `list_id`, `icon`, `status`, `position`, `description`) VALUES
+(21, 1, 'Beranda', 'admin/', 'home_index', 'home', 1, 1, '-'),
+(23, 1, 'Group', 'admin/group', 'group_index', 'people', 1, 1, '-'),
+(24, 1, 'Setting', 'admin/setting', 'admin_setting', 'settings', 1, 1, '-'),
+(25, 24, 'Menu', 'admin/menus', 'menus_index', 'home', 1, 1, '-'),
+(31, 1, 'User', 'admin/user_management', 'user_management_index', 'people', 1, 1, '-');
 
 -- --------------------------------------------------------
 
@@ -459,33 +436,6 @@ INSERT INTO `table_profile` (`profile_id`, `profile_title`, `profile_content`, `
 (6, 'Dasar Hukum', 'Isi Dasar Hukum 1', '2018-07-17', '0000-00-00 00:00:00', 1),
 (7, 'Struktur Organisasi', 'Daftar Struktur Organisasi', '2018-07-17', '0000-00-00 00:00:00', 1),
 (8, 'Tugas & Fungsi', 'Is Tugas dan Fungsi', '2018-07-17', '0000-00-00 00:00:00', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `table_submenus`
---
-
-CREATE TABLE `table_submenus` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `link` varchar(50) NOT NULL,
-  `status` tinyint(4) NOT NULL,
-  `icon` varchar(50) NOT NULL,
-  `attribute` varchar(200) NOT NULL,
-  `position` int(11) NOT NULL,
-  `description` text NOT NULL,
-  `menu_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `table_submenus`
---
-
-INSERT INTO `table_submenus` (`id`, `name`, `link`, `status`, `icon`, `attribute`, `position`, `description`, `menu_id`) VALUES
-(12, 'User', 'setting/user', 1, '#', '#', 1, 'Management User 1', 19),
-(13, 'Grup User', 'setting/group', 1, '#', '#', 2, 'Manajemen Grup User', 19),
-(14, 'Menu', 'setting/menu', 1, '#', '#', 3, 'Manajemen Menu', 19);
 
 -- --------------------------------------------------------
 
@@ -520,6 +470,7 @@ INSERT INTO `table_userprofiles` (`id`, `surename`, `birthplace`, `sex`, `phone`
 
 CREATE TABLE `table_users` (
   `id` int(11) UNSIGNED NOT NULL,
+  `group_id` mediumint(8) UNSIGNED NOT NULL,
   `ip_address` varchar(45) NOT NULL,
   `username` varchar(100) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
@@ -537,42 +488,16 @@ CREATE TABLE `table_users` (
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `image` text NOT NULL,
-  `group_id` int(11) NOT NULL
+  `image` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `table_users`
 --
 
-INSERT INTO `table_users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `phone`, `image`, `group_id`) VALUES
-(1, '127.0.0.1', 'administrator', '$2y$12$TxllHJj8DWX9Q4pS3XaDnO3LSTFp9nZHCHybUa8gMQ98D4BTfWBsG', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1557474199, 1, 'Admin', 'istrator', '081342989185', 'USER_1_1557479031.jpg', 1),
-(2, '::1', 'admin1@admin.com', '$2y$10$g1O7imNUMOTwMspHdhSA3efKugIn1x.k3BZdC5yQiGnuUO1raijXK', 'admin1@admin.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1557485448, 1557485470, 1, 'alan', 'a', '1234432', 'USER_2_1557485524.jpg', 1),
-(3, '::1', 'admin_test@admin.com', '$2y$12$DtxTGSx9Gq7U6Ie.1mL4IOX0nodIRLMvfKACFFqiiqNtZORp/dW3.', 'admin_test@admin.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1557662043, 1560186564, 1, 'admin', 'admin', '08233174456', '', 1),
-(4, '::1', 'raviq@admin.com', '$2y$12$BN.D5TSpYOVjqadsxnNude2UolZk6rgqjWNqPktxdScL0t9c65mye', 'raviq@admin.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1558317604, 1558317677, 1, 'raviq', 'lahadi', '08233174456', '', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `table_users_groups`
---
-
-CREATE TABLE `table_users_groups` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `user_id` int(11) UNSIGNED NOT NULL,
-  `group_id` mediumint(8) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `table_users_groups`
---
-
-INSERT INTO `table_users_groups` (`id`, `user_id`, `group_id`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 2, 2),
-(4, 3, 1),
-(5, 4, 1);
+INSERT INTO `table_users` (`id`, `group_id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `phone`, `image`) VALUES
+(1, 1, '127.0.0.1', 'admin@admin.com', '$2y$10$CquJ/t1YiAugcfD3gHyGDOIp/gJUOcqjXTXedjSJash9TYG.EQCmG', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1563603821, 1, 'Admin', 'istrator', '081342989185', 'USER_1_1557479031.jpg'),
+(2, 2, '::1', 'alan@gmail.com', '$2y$10$Kf7meZw9Pee/EIdtjjroL.Txatx8wUUGqO1ChoXtjTuq7DWXePJ8O', 'alan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1563601662, 1563601678, 1, 'alan', 'hetfield', '081342989185', '');
 
 --
 -- Indexes for dumped tables
@@ -582,12 +507,6 @@ INSERT INTO `table_users_groups` (`id`, `user_id`, `group_id`) VALUES
 -- Indexes for table `table_groups`
 --
 ALTER TABLE `table_groups`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `table_group_access`
---
-ALTER TABLE `table_group_access`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -615,12 +534,6 @@ ALTER TABLE `table_profile`
   ADD PRIMARY KEY (`profile_id`);
 
 --
--- Indexes for table `table_submenus`
---
-ALTER TABLE `table_submenus`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `table_userprofiles`
 --
 ALTER TABLE `table_userprofiles`
@@ -634,16 +547,8 @@ ALTER TABLE `table_users`
   ADD UNIQUE KEY `uc_email` (`email`),
   ADD UNIQUE KEY `uc_activation_selector` (`activation_selector`),
   ADD UNIQUE KEY `uc_forgotten_password_selector` (`forgotten_password_selector`),
-  ADD UNIQUE KEY `uc_remember_selector` (`remember_selector`);
-
---
--- Indexes for table `table_users_groups`
---
-ALTER TABLE `table_users_groups`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uc_users_groups` (`user_id`,`group_id`),
-  ADD KEY `fk_users_groups_users1_idx` (`user_id`),
-  ADD KEY `fk_users_groups_groups1_idx` (`group_id`);
+  ADD UNIQUE KEY `uc_remember_selector` (`remember_selector`),
+  ADD KEY `group_id` (`group_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -653,13 +558,7 @@ ALTER TABLE `table_users_groups`
 -- AUTO_INCREMENT for table `table_groups`
 --
 ALTER TABLE `table_groups`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `table_group_access`
---
-ALTER TABLE `table_group_access`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `table_log`
@@ -677,19 +576,13 @@ ALTER TABLE `table_login_attempts`
 -- AUTO_INCREMENT for table `table_menus`
 --
 ALTER TABLE `table_menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `table_profile`
 --
 ALTER TABLE `table_profile`
   MODIFY `profile_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `table_submenus`
---
-ALTER TABLE `table_submenus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `table_userprofiles`
@@ -701,24 +594,17 @@ ALTER TABLE `table_userprofiles`
 -- AUTO_INCREMENT for table `table_users`
 --
 ALTER TABLE `table_users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `table_users_groups`
---
-ALTER TABLE `table_users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `table_users_groups`
+-- Constraints for table `table_users`
 --
-ALTER TABLE `table_users_groups`
-  ADD CONSTRAINT `fk_users_groups_groups1` FOREIGN KEY (`group_id`) REFERENCES `table_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_users_groups_users1` FOREIGN KEY (`user_id`) REFERENCES `table_users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE `table_users`
+  ADD CONSTRAINT `table_users_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `table_groups` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
