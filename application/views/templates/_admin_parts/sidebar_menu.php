@@ -6,7 +6,12 @@
             <!-- User Info -->
             <div class="user-info" style="background: url(<?php echo base_url('assets/')?>img/user-img-background.jpg) no-repeat no-repeat;">
                 <div class="image">
-                    <img src="<?php echo base_url('assets/')?>img/user.png" width="48" height="48" alt="User" />
+                    <?php if( $this->session->userdata( 'user_image' ) ) :?>
+                            <img src="<?php echo base_url('uploads/users_photo/').$this->session->userdata( 'user_image' ) ?>" width="48" height="48" alt="User" />
+                    <?php else: ?>
+                            <img src="<?php echo base_url('assets/')?>img/user.png" width="48" height="48" alt="User" />
+                    <?php endif; ?>
+                    
                 </div>
                 <div class="info-container">
                     <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo ucwords($this->session->userdata('user_profile_name')) ?></div>
@@ -14,7 +19,7 @@
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="<?php echo site_url('setting/userprofile') ?>"><i class="material-icons">person</i>Profile</a></li>
+                            <li><a href="<?php echo site_url('user/profile') ?>"><i class="material-icons">person</i>Akun</a></li>
                             <!--<li role="separator" class="divider"></li>-->
                         </ul>
                     </div>

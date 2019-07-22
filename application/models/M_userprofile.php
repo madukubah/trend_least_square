@@ -1,168 +1,133 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class M_userprofile extends CI_Model{
+class M_userprofile extends MY_Model
+{
+  protected $table = "table_userprofiles";
 
-    function __construct() {
-        parent::__construct();
+  function __construct() {
+      parent::__construct( $this->table );
+      parent::set_join_key( 'userprofile_id' );
+  }
+
+  /**
+   * create
+   *
+   * @param array  $data
+   * @return static
+   * @author madukubah
+   */
+  public function create( $data )
+  {
+      // Filter the data passed
+      $data = $this->_filter_data($this->table, $data);
+
+      $this->db->insert($this->table, $data);
+      $id = $this->db->insert_id($this->table . '_id_seq');
+    
+      if( isset($id) )
+      {
+        $this->set_message("berhasil");
+        return $id;
+      }
+      $this->set_error("gagal");
+          return FALSE;
+  }
+  /**
+   * update
+   *
+   * @param array  $data
+   * @param array  $data_param
+   * @return bool
+   * @author madukubah
+   */
+  public function update( $data, $data_param  )
+  {
+    $this->db->trans_begin();
+    $data = $this->_filter_data($this->table, $data);
+
+    $this->db->update($this->table, $data, $data_param );
+    if ($this->db->trans_status() === FALSE)
+    {
+      $this->db->trans_rollback();
+
+      $this->set_error("gagal");
+      return FALSE;
     }
 
-    private $table = 'table_userprofiles';
-    private $base = 'table_userprofile';
-    private $id = 'id';
+    $this->db->trans_commit();
 
-    public function fetch($data){
-      $start = $data['start'];
-      $limit = $data['limit'];
-      $where = (isset($data['where'])) ? $data['where'] : null;
-      $select = (isset($data['select'])) ? $data['select'] : null;
-      $join = (isset($data['join'])) ? $data['join'] : null;
-      $like = (isset($data['like'])) ? $data['like'] : null;
-      $order = (isset($data['order'])) ? $data['order'] : null;
+    $this->set_message("berhasil");
+    return TRUE;
+  }
+  /**
+   * delete
+   *
+   * @param array  $data_param
+   * @return bool
+   * @author madukubah
+   */
+  public function delete( $data_param  )
+  {
+    //foreign
+    //delete_foreign( $data_param. $models[]  )
+    if( !$this->delete_foreign( $data_param ) )
+    {
+      $this->set_error("gagal");//('userprofile_delete_unsuccessful');
+      return FALSE;
+    }
+    //foreign
+    $this->db->trans_begin();
 
-      if($select==null || !is_array($select)){
-        $this->db->select('*');
-      }else{
-        foreach($select as $s){
-          $this->db->select($s);
-        }
+    $this->db->delete($this->table, $data_param );
+    if ($this->db->trans_status() === FALSE)
+    {
+      $this->db->trans_rollback();
+
+      $this->set_error("gagal");//('userprofile_delete_unsuccessful');
+      return FALSE;
+    }
+
+    $this->db->trans_commit();
+
+    $this->set_message("berhasil");//('userprofile_delete_successful');
+    return TRUE;
+  }
+
+    /**
+   * userprofile
+   *
+   * @param int|array|null $id = id_userprofiles
+   * @return static
+   * @author madukubah
+   */
+  public function userprofile( $id = NULL  )
+  {
+      if (isset($id))
+      {
+        $this->where($this->table.'.id', $id);
       }
 
-      $this->db->distinct();
+      $this->limit(1);
+      $this->order_by($this->table.'.id', 'desc');
 
-      $this->db->from($this->table);
+      $this->userprofiles(  );
 
-      if($join!=null && is_array($join)){
-        foreach($join as $j){
-          $this->db->join(
-            $j['table'],
-            $this->table.'.'.$this->id.'='.$j['table'].'.'.$j['id'],
-            $j['join']
-          );
-        }
-      }
-
-      if($where!=null && is_array($where)){
-        $this->db->where($where);
-      }
-
-      if($like!=null && is_array($like)){
-        $this->db->group_start();
-        $i=0;
-        foreach($like['name'] as $l){
-          if($i==0){
-            $this->db->like($l, $like['key']);
-          }else{
-            $this->db->or_like($l, $like['key']);
-          }
-          $i++;
-        }
-        $this->db->group_end();
-      }
-
-      if($order!=null && is_array($order)){
-        $this->db->order_by($order['field'],$order['type']);
-      }
-
-      if($limit!=null){
-        $this->db->limit($limit, $start);
-      }
-
-      $query = $this->db->get();
-      return $query->result();
-    }
-
-    public function get(){
-      $query = $this->db->get($this->table);
-      return $query->result();
-    }
-    public function getWhere($data){
-      $query = $this->db->where($data)->get($this->table);
-      return $query->result();
-    }
-
-    public function get_current($limit, $start){
-      $this->db->select('a.*, b.group_name, c.nama_skpd');
-      $this->db->distinct();
-      $this->db->from('table_userprofile a');
-      $this->db->join('table_userprofile b', 'a.group_id = b.group_id', 'left');
-      $this->db->join('table_skpd c', 'a.id_skpd = c.id_skpd', 'left');
-      $this->db->limit($limit, $start);
-      $query = $this->db->get($this->table);
-      if ($query->num_rows() > 0){
-          return $query->result();
-      }
-      return false;
-    }
-
-    public function get_total(){
-      return $this->db->count_all($this->table);
-    }
-
-    public function add($data){
-      $this->db->insert($this->table,$data);
-      return ($this->db->affected_rows() != 1) ? false : true;
-    }
-
-    public function update($id, $data){
-      //run Query to update data
-      if(isset($data[$this->id]))unset($data[$this->id]);
-      $query = $this->db->where('id', $id)->update(
-        $this->table, $data
-      );
-      return ($this->db->affected_rows() != 1) ? false : true;
-
-    }
-
-    public function delete($data){
-
-      $this->db->delete($this->table, $data);
-      return ($this->db->affected_rows() != 1) ? false : true;
-    }
-
-    public function search($key=null, $limit=null, $start=null, $name=null){
-      $this->db->select('a.*, b.group_name, c.nama_skpd');
-      $this->db->distinct();
-      $this->db->from('table_userprofile a');
-      $this->db->join('table_userprofile b', 'a.group_id = b.group_id', 'left');
-      $this->db->join('table_skpd c', 'a.id_skpd = c.id_skpd', 'left');
-      foreach ($name as $k => $value) {
-        if ($k==0) {
-          $this->db->like('a.'.$value, $key);
-        }else {
-          $this->db->or_like('a.'.$value, $key);
-        }
-      }
-      $this->db->limit($limit, $start);
-      $query = $this->db->get($this->table);
-      if($query->num_rows() > 0) {
-        foreach($query->result() as $row) {
-          $data[] = $row;
-        }
-        return $data;
-      }
-      return null;
-    }
-
-    public function search_count($key=null, $name=null){
-      foreach ($name as $k => $value) {
-        if ($k==0) {
-          $this->db->like($value, $key);
-        }else {
-          $this->db->or_like($value, $key);
-        }
-      }
-      $this->db->from($this->table);
-      // $this->db->limit($limit, $start);
-      $query = $this->db->count_all_results();
-      return $query;
-
-    }
-    public function last(){
-      return $this->db->count_all($this->table);;
-    }
-
-
+      return $this;
+  }
+  /**
+   * userprofiles
+   *
+   *
+   * @return static
+   * @author madukubah
+   */
+  public function userprofiles(  )
+  {
+      
+      $this->order_by($this->table.'.id', 'asc');
+      return $this->fetch_data();
+  }
 
 }
 ?>

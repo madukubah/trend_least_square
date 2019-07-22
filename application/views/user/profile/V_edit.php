@@ -158,7 +158,7 @@ figure figcaption {
                 </div>
             <?php echo form_close()?>
             </div>
-            <!-- <div class="col-md-3">
+            <div class="col-md-3">
                 <div class="box box-primary">
                     <div class="box-body box-profile">
                     <label class="cabinet center-block">
@@ -198,7 +198,7 @@ figure figcaption {
                     
                     </div>
                 </div>
-            </div> -->
+            </div>
             <!--  -->
             <div class="col-md-3">
                 <div class="box">

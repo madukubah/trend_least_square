@@ -9,7 +9,7 @@ class Home extends Admin_Controller {
 	public function index()
 	{
 		// echo $this->router->fetch_class();
-		// echo $this->router->fetch_method();
+		// echo $this->session->userdata( 'user_image' );
 		// return;
 		$this->data[ "page_title" ] = "Beranda";
 		$this->render( "admin/dashboard/content" );

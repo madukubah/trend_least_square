@@ -877,16 +877,16 @@ class Ion_auth_model extends MY_Model
 						  ->order_by('id', 'desc')
 						  ->get($this->tables['users']);
 
-		// if ($this->is_max_login_attempts_exceeded($identity))
-		// {
-		// 	// Hash something anyway, just to take up time
-		// 	$this->hash_password($password);
+		if ($this->is_max_login_attempts_exceeded($identity))
+		{
+			// Hash something anyway, just to take up time
+			$this->hash_password($password);
 
-		// 	$this->trigger_events('post_login_unsuccessful');
-		// 	$this->set_error('login_timeout');
+			$this->trigger_events('post_login_unsuccessful');
+			$this->set_error('login_timeout');
 
-		// 	return FALSE;
-		// }
+			return FALSE;
+		}
 
 		if ($query->num_rows() === 1)
 		{
@@ -935,9 +935,9 @@ class Ion_auth_model extends MY_Model
 		}
 
 		// Hash something anyway, just to take up time
-		// $this->hash_password($password);
+		$this->hash_password($password);
 
-		// $this->increase_login_attempts($identity);
+		$this->increase_login_attempts($identity);
 
 		$this->trigger_events('post_login_unsuccessful');
 		$this->set_error('login_unsuccessful');
@@ -1349,7 +1349,6 @@ class Ion_auth_model extends MY_Model
 			{
 				$this->db->select($select);
 			}
-
 			$this->_ion_select = [];
 		}
 		else

@@ -507,6 +507,7 @@ class Ion_auth
 			{
 				$this->set_error( $this->upload->display_errors() );
 				$this->set_error( 'upload_unsuccessful' );
+				
 				return FALSE;
 			}
 			else

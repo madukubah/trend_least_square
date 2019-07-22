@@ -106,7 +106,6 @@ class Admin_Controller extends User_Controller{
     protected function render($the_view = NULL, $template = 'admin_master'){
   		parent::render($the_view, $template);
   	}
-
 }
 
 class Public_Controller extends MY_Controller{

@@ -17,9 +17,6 @@ class Group extends Admin_Controller {
 	}
 	public function index()
 	{
-		// echo $this->router->fetch_class();
-		// echo $this->router->fetch_method();
-		// return;
 		#################################################################3
 		$table = $this->services->groups_table_config( $this->current_page );
 		$table[ "rows" ] = $this->m_group->groups()->result();
@@ -47,7 +44,7 @@ class Group extends Admin_Controller {
 
 		$add_menu= $this->load->view('templates/actions/modal_form', $add_menu, true ); 
 
-		$this->data[ "header_button" ] =  $add_menu ;
+		$this->data[ "header_button" ] =  $add_menu;
 		// return;
 		#################################################################3
 		$alert = $this->session->flashdata('alert');

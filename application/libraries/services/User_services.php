@@ -148,7 +148,7 @@ class User_services
 		$group_select = array();
 		foreach( $groups as $group )
 		{
-			if( $group->id == 1 ) continue;
+			// if( $group->id == 1 ) continue;
 			$group_select[ $group->id ] = $group->name;
 		}
 

@@ -2,22 +2,37 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Profile extends User_Controller {
+	private $services = null;
+    private $name = null;
+    private $parent_page = 'user';
+	private $current_page = 'user/profile/';
 
-	function __construct()
-	{
+	public function __construct(){
 		parent::__construct();
-		$this->load->library( array( 'form_validation' ) );
-		$this->load->helper('form');
-		$this->config->load('ion_auth', TRUE);
 		$this->load->helper(array('url', 'language'));
 		$this->lang->load('auth');
 
-	}
+		$this->load->library('services/User_services');
+		$this->services = new User_services;
+		
+	} 
 	public function index()
 	{
-		$this->data[ "page_title" ] = "Profile";
-		$this->data[ "users" ] = $this->ion_auth->user()->result();
-		$this->render( "user/profile/V_detail",  ( $this->ion_auth->is_admin() ? 'admin_master' : 'user_master' ) );
+		$user_id = $this->ion_auth->get_user_id();
+		$form_data = $this->services->get_form_data_readonly(  $user_id );
+		$form_data = $this->load->view('templates/form/bsb_form_readonly', $form_data , TRUE ) ;
+
+		$this->data[ "user" ] =  $this->ion_auth->user()->row();
+		$this->data[ "contents" ] =  $form_data;
+		
+		$alert = $this->session->flashdata('alert');
+		$this->data["key"] = $this->input->get('key', FALSE);
+		$this->data["alert"] = (isset($alert)) ? $alert : NULL ;
+		$this->data["current_page"] = $this->current_page;
+		$this->data["block_header"] = "Data Akun ";
+		$this->data["header"] = "Data Akun ";
+		$this->data["sub_header"] = 'Klik Tombol Action Untuk Aksi Lebih Lanjut';
+		$this->render( "user/profile/content" );
 	}
 	// public function upload_photo()
 	// {
@@ -34,33 +49,21 @@ class Profile extends User_Controller {
 	// }
 	public function upload_photo()
 	{
-		if( !($_POST) )	redirect(site_url('user/profile'));
-        $this->load->library( array( 'form_validation' ) );
-
-		$this->form_validation->set_rules('image',  'gambar', 'trim|required');
-		if ( $this->form_validation->run() === TRUE )
+		if ( ! $this->ion_auth->upload_photo( ( "image" ) ) )
 		{
-				if ( ! $this->ion_auth->upload_photo( $this->input->post( "image" ) ) )
-				{
-						$this->session->set_flashdata('alert', $this->alert->set_alert( Alert::DANGER,  $this->ion_auth->errors() ) );
-						redirect(site_url('user/profile'));
-				}
-				else
-				{
-						$this->session->set_flashdata('alert', $this->alert->set_alert( Alert::SUCCESS, $this->ion_auth->messages() ) );
-						redirect(site_url('user/profile'));
-				}
+				$this->session->set_flashdata('alert', $this->alert->set_alert( Alert::DANGER,  $this->ion_auth->errors() ) );
+				redirect(site_url('user/profile'));
 		}
 		else
 		{
-			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->m_advertisement->errors() ? $this->m_advertisement->errors() : $this->session->flashdata('message')));
-			$this->session->set_flashdata('alert', $this->alert->set_alert( Alert::DANGER, $this->data['message'] ) );
+				$this->session->set_flashdata('alert', $this->alert->set_alert( Alert::SUCCESS, $this->ion_auth->messages() ) );
+				redirect(site_url('user/profile'));
 		}
-
-		redirect(site_url('user/profile'));
 	}
 	public function edit() //edut curr profile
 	{
+		$user_id = $this->ion_auth->get_user_id();
+
 		$this->data[ "page_title" ] = "Edit Profile";
 		$this->form_validation->set_rules('first_name',  $this->lang->line('create_user_validation_fname_label'), 'trim|required');
 		$this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label') , 'trim|required');
@@ -108,63 +111,58 @@ class Profile extends User_Controller {
 		else
 		{
 			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
-			if(  !empty( validation_errors() ) || $this->ion_auth->errors() ) $this->session->set_flashdata('alert', $this->alert->set_alert( Alert::DANGER, $this->data['message'] ) );
+            if(  !empty( validation_errors() ) || $this->ion_auth->errors() ) $this->session->set_flashdata('alert', $this->alert->set_alert( Alert::DANGER, $this->data['message'] ) );
 
-			$user = $this->ion_auth->user(  )->row();
-			$this->data[ "user" ] =  $user;
-				$this->data['first_name'] = array(
-					'name' => 'first_name',
-					'id' => 'first_name',
-					'type' => 'text',
-					'placeholder' => 'Nama Depan',
-					'class' => 'form-control form-control-alternative',
-					'value' => $this->form_validation->set_value('first_name', $user->first_name  ),
-				);
-				$this->data['last_name'] = array(
-					'name' => 'last_name',
-					'id' => 'last_name',
-					'type' => 'text',
-					'placeholder' => 'Nama Belakang',
-					'class' => 'form-control form-control-alternative',
-					'value' => $this->form_validation->set_value('last_name', $user->last_name),
-				);
+            $alert = $this->session->flashdata('alert');
+			$this->data["key"] = $this->input->get('key', FALSE);
+			$this->data["alert"] = (isset($alert)) ? $alert : NULL ;
+			$this->data["current_page"] = $this->current_page;
+			$this->data["block_header"] = "Edit Akun ";
+			$this->data["header"] = "Edit Akun ";
+			$this->data["sub_header"] = 'Klik Tombol Action Untuk Aksi Lebih Lanjut';
 
-				$this->data['phone'] = array(
-					'name' => 'phone',
-					'id' => 'phone',
-					'type' => 'text',
-					'placeholder' => 'Nomor HP',
-					'class' => 'form-control',
-					'value' => $this->form_validation->set_value('phone', $user->phone),
-				);
-
-				$this->data['old_password'] = array(
-					'name' => 'old_password',
-					'id' => 'old_password',
+            $form_data = $this->ion_auth->get_form_data( $user_id );
+			$form_password[ 'form_data' ] = array(
+				"old_password" => array(
 					'type' => 'password',
-					'placeholder' => 'Password lama',
-					'class' => 'form-control',
-					'value' => $this->form_validation->set_value('old_password'),
-				);
-				$this->data['password'] = array(
-					'name' => 'password',
-					'id' => 'password',
-					'type' => 'password',
-					'placeholder' => 'Password',
-					'class' => 'form-control',
-					'value' => $this->form_validation->set_value('password'),
-				);
+					'label' => "Password lama",
+				),
+				"password" => array(
+				  'type' => 'password',
+				  'label' => "Password",
+				),
+				"password_confirm" => array(
+				  'type' => 'password',
+				  'label' => "Konfirmasi Password",
+				),
+			);
+			$form_data[ 'form_data' ] = array_merge( $form_data[ 'form_data' ] , $form_password[ 'form_data' ] );
+			unset( $form_data[ 'form_data' ]["group_id"] );
+			$form_data = $this->load->view('templates/form/bsb_form', $form_data , TRUE ) ;
 
-				$this->data['password_confirm'] = array(
-					'name' => 'password_confirm',
-					'id' => 'password_confirm',
-					'type' => 'password',
-					'placeholder' => 'Konfirmasi Password',
-					'class' => 'form-control',
-					'value' => $this->form_validation->set_value('password_confirm'),
-				);
+			$this->data[ "user" ] =  $this->ion_auth->user()->row();
+            $this->data[ "contents" ] =  $form_data;
+			
+			$edit_photo = array(
+				"name" => "Ganti Foto",
+				"modal_id" => "edit_photo_",
+				"button_color" => "primary",
+				"url" => site_url( $this->current_page."upload_photo/"),
+				"form_data" => array(
+					"image" => array(
+						'type' => 'file',
+						'label' => "Foto",
+						'value' => "",	
+					),
+				'data' => NULL
+				),
+			);
+	
+			$edit_photo= $this->load->view('templates/actions/modal_form_multipart', $edit_photo, true ); 
+	
+			$this->data[ "edit_photo" ] =  $edit_photo ;
 
-			$this->render( "user/profile/V_edit", ( $this->ion_auth->is_admin() ? 'admin_master' : 'user_master' ) );
+            $this->render( "user/profile/content_form" );
 		}
 	}
 }
