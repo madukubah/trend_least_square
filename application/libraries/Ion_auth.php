@@ -597,11 +597,11 @@ class Ion_auth
 				 'label' =>('No Telepon'),
 				 'rules' =>  'trim|required',
 			),
-			 array(
-				'field' => 'group_id',
-				 'label' => "User Group",
-				 'rules' =>  'trim|required',
-			 ),
+			//  array(
+			// 	'field' => 'group_id',
+			// 	 'label' => "User Group",
+			// 	 'rules' =>  'trim|required',
+			//  ),
 		);
 		
 		return $config;
