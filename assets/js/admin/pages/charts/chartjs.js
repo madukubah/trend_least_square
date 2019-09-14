@@ -1,35 +1,37 @@
 $(function () {
     new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line'));
-    new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
-    new Chart(document.getElementById("radar_chart").getContext("2d"), getChartJs('radar'));
-    new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('pie'));
+    // new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
+    // new Chart(document.getElementById("radar_chart").getContext("2d"), getChartJs('radar'));
+    // new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('pie'));
 });
 
 function getChartJs(type) {
     var config = null;
-
+    // console.log( document.getElementById("data_prediction").value );
     if (type === 'line') {
         config = {
             type: 'line',
             data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                // labels: [-3, -2, -1, -0, 1, 2, 3],
+                labels: JSON.parse( document.getElementById("data_x").value.trim() ),
                 datasets: [{
-                    label: "My First dataset",
-                    data: [65, 59, 80, 81, 56, 55, 40],
+                    label: "Real Value",
+                    data: JSON.parse( document.getElementById("data_real").value.trim() ),
+                    // data: [3070,2905,3046,3035,3176,1741,3381,2670,2881,3093,3375,2929,2588,2658,2823,2728,2708,1787,3010,3082,2599,3272,2623],
                     borderColor: 'rgba(0, 188, 212, 0.75)',
                     backgroundColor: 'rgba(0, 188, 212, 0.3)',
                     pointBorderColor: 'rgba(0, 188, 212, 0)',
                     pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
                     pointBorderWidth: 1
                 }, {
-                        label: "My Second dataset",
-                        data: [28, 48, 40, 19, 86, 27, 90],
-                        borderColor: 'rgba(233, 30, 99, 0.75)',
-                        backgroundColor: 'rgba(233, 30, 99, 0.3)',
-                        pointBorderColor: 'rgba(233, 30, 99, 0)',
-                        pointBackgroundColor: 'rgba(233, 30, 99, 0.9)',
-                        pointBorderWidth: 1
-                    }]
+                    label: "Prediction",
+                    data: JSON.parse( document.getElementById("data_prediction").value.trim() ),
+                    borderColor: 'rgba(233, 30, 99, 0.75)',
+                    backgroundColor: 'rgba(233, 30, 99, 0.3)',
+                    pointBorderColor: 'rgba(233, 30, 99, 0)',
+                    pointBackgroundColor: 'rgba(233, 30, 99, 0.9)',
+                    pointBorderWidth: 1
+                }]
             },
             options: {
                 responsive: true,

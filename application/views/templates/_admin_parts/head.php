@@ -28,7 +28,6 @@
   <!-- Bootstrap Select Css -->
   <link href="<?php echo base_url('assets/')?>/vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 
-
   <!-- Custom Css -->
   <link href="<?php echo base_url('assets/')?>css/admin/style.css" rel="stylesheet">
 

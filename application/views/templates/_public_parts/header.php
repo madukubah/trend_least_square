@@ -16,6 +16,7 @@
         <a href="<?php echo base_url();?>" class="navbar-brand">
           <img src="<?php echo base_url().ICON_IMAGE;?>" alt="" width="86px" height="32px">
         </a>
+        <a class="navbar-brand" href="<?php echo base_url()?>"><?php echo APP_NAME ?></a>
         <!-- End Logo -->
 
         <!-- Navigation -->
@@ -39,9 +40,9 @@
         </div>
         <!-- End Navigation -->
         <?php if ($this->session->identity==null): ?>
-          <div class="d-inline-block g-hidden-xs-down g-pos-rel g-valign-middle g-pl-30 g-pl-0--lg">
+          <!-- <div class="d-inline-block g-hidden-xs-down g-pos-rel g-valign-middle g-pl-30 g-pl-0--lg">
             <a class="btn  g-font-size-13 text-uppercase g-py-10 g-px-15" href="<?php echo site_url('auth/register')?>">Register</a>
-          </div>
+          </div> -->
           <div class="d-inline-block g-hidden-xs-down g-pos-rel g-valign-middle g-pl-30 g-pl-0--lg">
             <a class="btn g-font-size-13 u-btn-outline-pink  text-uppercase g-py-10 g-px-15" href="<?php echo site_url('auth/login')?>">Login</a>
           </div>

@@ -82,6 +82,7 @@ class Profile extends User_Controller {
 				'first_name' => $this->input->post('first_name'),
 				'last_name' => $this->input->post('last_name'),
 				'phone' => $this->input->post('phone'),
+				'email' => $this->input->post('email'),
 			);
 			if ( $this->input->post('password') )
 			{

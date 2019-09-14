@@ -157,13 +157,27 @@ class MY_Model extends CI_Model {
 		}
 		return TRUE;
 	}
+
 	/** record_count
 	 * @param string $table
 	 * @param array  $data
 	 *
 	 * @return int
 	 */
-	public function record_count(  ) {
+	public function truncate(  ) 
+	{
+		echo "asdf";
+		return $this->db->truncate( $this->table );
+	}
+
+	/** record_count
+	 * @param string $table
+	 * @param array  $data
+	 *
+	 * @return int
+	 */
+	public function record_count(  ) 
+	{
 		if (isset($this->_ion_join) && !empty($this->_ion_join))
 		{
 			$this->db->distinct();
@@ -175,7 +189,6 @@ class MY_Model extends CI_Model {
 					$join[ "position" ]
 				);
 			}
-
 			$this->_ion_join = array();
 		}
 		// run each where that was passed

@@ -18,14 +18,14 @@
                       </div>
                       <!--  -->
                       <div class="row clearfix" >
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                           <h2>
                               <?php echo strtoupper($header)?>
                               <small><?php echo $sub_header ?></small>
                           </h2>
                         </div>
                         <!-- search form -->
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                           <div class="row clearfix">
                             <div class="col-md-2">
                             </div>

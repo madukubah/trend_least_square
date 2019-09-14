@@ -24,7 +24,6 @@
             <div class="form-group form-float">
                 <div class="form-line">
                     <?php
-
                         $form = array(
                             'name' => $form_name,
                             'id' => $form_name,

@@ -16,6 +16,11 @@
 <!-- Custom Js -->
 <script src="<?php echo base_url('assets/')?>js/admin/admin.js"></script>
 
+<!-- Chart Plugins Js -->
+
+<!-- <script src="<?php echo base_url('assets/')?>vendor/chartjs/Chart.bundle.js"></script> -->
+<!-- <script src="../../plugins/chartjs/Chart.bundle.js"></script> -->
+
 <!-- Demo Js -->
 <script src="<?php echo base_url('assets/')?>js/admin/demo.js"></script>
 

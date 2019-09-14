@@ -22,12 +22,14 @@
                 <td  >
                     <?php 
                         $attr = "";
-                        if( is_numeric( $row->$key ) && ( $key != 'phone' && $key != 'username' ) )
+                        if( is_numeric( $row->$key ) && ( $key != 'phone' && $key != 'username' && $key != 'code' && $key != 'year' ) )
                             $attr = number_format( $row->$key );
                         else
                             $attr = $row->$key ;
                         if( $key == 'date' || $key == 'create_date' || $key == 'time' )
                             $attr =  date("d/m/Y", $row->$key ) ;
+                        if( $key == 'month' && is_numeric( $row->$key )  )
+                            $attr = Util::MONTH[ $row->$key ] ;
 
                         echo $attr;
                     ?>

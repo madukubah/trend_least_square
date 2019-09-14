@@ -39,8 +39,6 @@
             <!-- End Form -->
 
             <footer class="text-center">
-              <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Tidak punya akun? Register<a class="g-font-weight-600" href="<?php echo site_url('auth/register')?>"> Register</a>
-              </p>
             </footer>
           </div>
         </div>

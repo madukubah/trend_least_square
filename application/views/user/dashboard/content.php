@@ -1,67 +1,55 @@
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-<!-- Content Header (Page header) -->
-<section class="content-header">
-  <h1>
-    <?php echo $page_title ?>
-  </h1>
-  <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Dashboard</li>
-  </ol>
-</section>
-
-<!-- Main content -->
 <section class="content">
+	<div class="container-fluid">
+		<div class="block-header">
+      <h2><?php echo $block_header ?></h2>
+		</div>
 
-  <div class="row"> 
-  <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-      <!-- small box -->
-      <div class="small-box bg-yellow">
-        <div class="inner">
-          <h3><?php echo $page_title ?></h3>
-
-          <p>Data Testing</p>
+    <div class="row clearfix">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="info-box bg-pink hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">playlist_add_check</i>
+                </div>
+                <div class="content">
+                    <div class="text">TOTAL INVENTORI SAMPAI BULAN INI</div>
+                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"><?php echo number_format( $sale_sum )?></div>
+                </div>
+            </div>
         </div>
-        <div class="icon">
-          <i class="ion ion-person"></i>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="info-box bg-cyan hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">playlist_add_check</i>
+                </div>
+                <div class="content">
+                    <div class="text">TOTAL PENJUALAN SAMPAI BULAN INI</div>
+                    <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"><?php echo number_format( $inventory_sum )?></div>
+                </div>
+            </div>
         </div>
-        <a href="" class="small-box-footer">Lihat <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
     </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-      <!-- small box -->
-      <div class="small-box bg-primary">
-        <div class="inner">
-          <h3><?php echo $page_title ?><sup style="font-size: 20px"></sup></h3>
-
-          <p>Data Uji</p>
+    <div class="card">
+        <div class="header">
+            <h2>Data 5 Bulan Terakhir</h2>
         </div>
-        <div class="icon">
-          <i class="ion ion-person"></i>
+        <div class="body"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+            <canvas id="line_chart" height="347" width="694" style="display: block; width: 694px; height: 347px;"></canvas>
         </div>
-        <a href="" class="small-box-footer">Lihat <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
     </div>
-    
-    <!-- ./col -->
-    <!-- <div class="col-lg-3 col-xs-6">
-      <div class="small-box bg-red">
-        <div class="inner">
-          <h3>65</h3>
+	</div>
+</section>
+<textarea style="display:none" id="arr_x" >
+        <?php echo json_encode( $arr_x) ; ?>
+</textarea>
+<textarea style="display:none" id="sales" >
+        <?php echo json_encode( $sales) ; ?>
+</textarea>
 
-          <p>Tidak diterima</p>
-        </div>
-        <div class="icon">
-          <i class="fa fa-hand-paper-o"></i>
-        </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
-    </div> -->
-    <!-- ./col -->
-  </div>
-  </section>
-<!-- /.content -->
-</div>
+<textarea style="display:none" id="inventories" >
+        <?php echo json_encode( $inventories) ; ?>
+</textarea>
+
+<script src="<?php echo base_url('assets/')?>vendor/jquery/jquery.min.js"></script>
+<script src="<?php echo base_url('assets/')?>js/admin/pages/charts/dashboard_chart.js"></script>
+<script src="<?php echo base_url('assets/')?>vendor/chartjs/Chart.bundle.js"></script>
+

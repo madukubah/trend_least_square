@@ -77,7 +77,7 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2019 <a href="javascript:void(0);">Coreigniter - Techno's Studio</a>.
+                    &copy; 2019 <a href="javascript:void(0);">Coreigniter - <?php echo APP_AUTHOR?></a>.
                 </div>
                 <div class="version">
                     <b>Version: </b> 0.1

@@ -38,8 +38,8 @@ class Group extends Admin_Controller {
 					'label' => "Deskripsi",
 					'value' => "-",	
 				),
-			'data' => NULL
 			),
+			'data' => NULL
 		);
 
 		$add_menu= $this->load->view('templates/actions/modal_form', $add_menu, true ); 
@@ -122,5 +122,5 @@ class Group extends Admin_Controller {
 		  $this->session->set_flashdata('alert', $this->alert->set_alert( Alert::DANGER, $this->m_group->errors() ) );
 		}
 		redirect( site_url($this->current_page)  );
-	  }
+	}
 }

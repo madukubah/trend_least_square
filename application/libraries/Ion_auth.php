@@ -487,7 +487,6 @@ class Ion_auth
 			list(, $_data)      = explode(',', $_data);
 			$_data = base64_decode($_data);
 			
-			
 			$file_name = $upload['file_name'].$user->id."_".time().'.jpg';
 			$upload_path = $upload['upload_path'];
 
