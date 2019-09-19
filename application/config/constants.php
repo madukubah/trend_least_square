@@ -87,7 +87,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 // custom
 // define('APP_NAME', 'TREND LEAST SQUARE');
 define('APP_NAME', 'PT PINUS MERAH ABADI');
-define('APP_AUTHOR', 'FIXL Labs');
+define('APP_AUTHOR', 'FIXLIgniter - PINUS MERAH ABADI');
 define('APP_DESC', 'Madukubah base core for creating Information System base on Codeigniter');
 define('FAVICON_IMAGE', 'assets/logo/favicon.ico');
 define('ICON_IMAGE', 'assets/logo/coreigniter.png');

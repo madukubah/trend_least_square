@@ -93,12 +93,12 @@ class Prediction_services
       "start_month" => array(
 			  'type' => 'select',
 				'label' => "Dari Bulan",
-				'options' => Util::MONTH,
+				'options' => [1 => "Januari"],
       ),
       "start_year" => array(
 			  'type' => 'select',
 				'label' => "Tahun",
-        'options' => Util::YEAR,
+				'options' => [2016 => "2016"],
       ),
       "end_month" => array(
 			  'type' => 'select',

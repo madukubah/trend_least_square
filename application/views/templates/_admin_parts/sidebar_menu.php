@@ -43,6 +43,7 @@
                                     <li id="<?php echo $data->list_id ?>" >
                                         <a href="javascript:void(0);" class="menu-toggle">
                                         <i class="material-icons"><?php echo $data->icon ?></i>
+                                        <!-- <i class="fa fa-home"> -->
                                             <span><?php echo $data->name?></span>
                                             
                                         </a>
@@ -58,6 +59,7 @@
                                     <li id="<?php echo $data->list_id ?>"  >
                                         <a  href="<?php echo site_url( $data->link ) ?>" >
                                             <i class="material-icons"><?php echo $data->icon ?></i>
+                                            <!-- <i class="fa fa-home"> -->
                                                 <span><?php echo $data->name?></span>
                                             <div id="<?php echo 'notif_'.$data->list_id ?>" >
                                             </div>
@@ -77,7 +79,7 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2019 <a href="javascript:void(0);">Coreigniter - <?php echo APP_AUTHOR?></a>.
+                    &copy; 2019 <a href="javascript:void(0);"><?php echo APP_AUTHOR?></a>.
                 </div>
                 <div class="version">
                     <b>Version: </b> 0.1
@@ -90,8 +92,9 @@
     </section>
 
     <script type="text/javascript">
-    function menuActive( id ){
-        id = id.trim() ;
+    function menuActive( id )
+    {
+        id = id.trim();
         console.log(id );
         console.log( document.getElementById( id.trim() ) );
         // var a =document.getElementById("menu").children[num-1].className="active";

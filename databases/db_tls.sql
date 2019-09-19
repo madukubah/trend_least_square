@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2019 at 09:16 AM
+-- Generation Time: Sep 19, 2019 at 01:50 PM
 -- Server version: 10.1.34-MariaDB
--- PHP Version: 7.2.8
+-- PHP Version: 5.6.37
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,8 +19,146 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_coreigniter`
+-- Database: `db_tls`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory`
+--
+
+CREATE TABLE `inventory` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `product_id` int(10) UNSIGNED NOT NULL,
+  `month` int(11) NOT NULL,
+  `year` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `inventory`
+--
+
+INSERT INTO `inventory` (`id`, `product_id`, `month`, `year`, `quantity`, `date`) VALUES
+(1, 2, 1, 2016, 3070, '2016-01-05'),
+(2, 2, 2, 2016, 2905, '2016-02-05'),
+(3, 2, 3, 2016, 3046, '2016-03-05'),
+(4, 2, 4, 2016, 3035, '2016-04-05'),
+(5, 2, 5, 2016, 3176, '2016-05-05'),
+(6, 2, 6, 2016, 1741, '2016-06-05'),
+(7, 2, 7, 2016, 3381, '2016-07-05'),
+(8, 2, 8, 2016, 2670, '2016-08-05'),
+(9, 2, 9, 2016, 2881, '2016-09-05'),
+(10, 2, 10, 2016, 3093, '2016-10-05'),
+(11, 2, 11, 2016, 3375, '2016-11-05'),
+(12, 2, 12, 2016, 2929, '2016-12-05'),
+(13, 2, 1, 2017, 2588, '2017-01-05'),
+(14, 2, 2, 2017, 2658, '2017-02-05'),
+(15, 2, 3, 2017, 2823, '2017-03-05'),
+(16, 2, 4, 2017, 2728, '2017-04-05'),
+(17, 2, 5, 2017, 2708, '2017-05-05'),
+(18, 2, 6, 2017, 1787, '2017-06-05'),
+(19, 2, 7, 2017, 3010, '2017-07-05'),
+(20, 2, 8, 2017, 3082, '2017-08-05'),
+(21, 2, 9, 2017, 2599, '2017-09-05'),
+(22, 2, 10, 2017, 3272, '2017-10-05'),
+(23, 2, 11, 2017, 2623, '2017-11-05'),
+(24, 2, 12, 2017, 2717, '2017-12-05'),
+(25, 2, 1, 2018, 2596, '2018-01-05'),
+(26, 2, 2, 2018, 2658, '2018-02-05'),
+(27, 2, 3, 2018, 2846, '2018-03-05'),
+(28, 2, 4, 2018, 2728, '2018-04-05'),
+(29, 2, 5, 2018, 2713, '2018-05-05'),
+(30, 2, 6, 2018, 1787, '2018-06-05'),
+(31, 2, 7, 2018, 3010, '2018-07-05'),
+(32, 2, 8, 2018, 3082, '2018-08-05'),
+(33, 2, 9, 2018, 2500, '2018-09-05'),
+(34, 2, 10, 2018, 3200, '2018-10-05'),
+(35, 2, 11, 2018, 2600, '2018-11-05'),
+(36, 2, 12, 2018, 2700, '2018-12-05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product`
+--
+
+CREATE TABLE `product` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `name` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`id`, `code`, `name`) VALUES
+(2, '300454', 'NABATI RCE 8g'),
+(4, '300458', 'NABATI RCE 50g'),
+(5, '301234', 'NABATI RCO 8g'),
+(6, '301241', 'NABATI RCO 50g'),
+(7, '301211', 'NABATI RCO 145g'),
+(8, '301242', 'NABATI RCW 50g');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sale`
+--
+
+CREATE TABLE `sale` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `product_id` int(10) UNSIGNED NOT NULL,
+  `month` int(10) NOT NULL,
+  `year` int(10) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sale`
+--
+
+INSERT INTO `sale` (`id`, `product_id`, `month`, `year`, `quantity`, `date`) VALUES
+(1, 2, 1, 2016, 3070, '2016-01-05'),
+(2, 2, 2, 2016, 2905, '2016-02-05'),
+(3, 2, 3, 2016, 3046, '2016-03-05'),
+(4, 2, 4, 2016, 3035, '2016-04-05'),
+(5, 2, 5, 2016, 3176, '2016-05-05'),
+(6, 2, 6, 2016, 1741, '2016-06-05'),
+(7, 2, 7, 2016, 3381, '2016-07-05'),
+(8, 2, 8, 2016, 2670, '2016-08-05'),
+(9, 2, 9, 2016, 2881, '2016-09-05'),
+(10, 2, 10, 2016, 3093, '2016-10-05'),
+(11, 2, 11, 2016, 3375, '2016-11-05'),
+(12, 2, 12, 2016, 2929, '2016-12-05'),
+(13, 2, 1, 2017, 2588, '2017-01-05'),
+(14, 2, 2, 2017, 2658, '2017-02-05'),
+(15, 2, 3, 2017, 2823, '2017-03-05'),
+(16, 2, 4, 2017, 2728, '2017-04-05'),
+(17, 2, 5, 2017, 2708, '2017-05-05'),
+(18, 2, 6, 2017, 1787, '2017-06-05'),
+(19, 2, 7, 2017, 3010, '2017-07-05'),
+(20, 2, 8, 2017, 3082, '2017-08-05'),
+(21, 2, 9, 2017, 2599, '2017-09-05'),
+(22, 2, 10, 2017, 3272, '2017-10-05'),
+(23, 2, 11, 2017, 2623, '2017-11-05'),
+(24, 2, 12, 2017, 2717, '2017-12-05'),
+(25, 2, 1, 2018, 2596, '2018-01-05'),
+(26, 2, 2, 2018, 2658, '2018-02-05'),
+(27, 2, 3, 2018, 2846, '2018-03-05'),
+(28, 2, 4, 2018, 2728, '2018-04-05'),
+(29, 2, 5, 2018, 2713, '2018-05-05'),
+(30, 2, 6, 2018, 1787, '2018-06-05'),
+(31, 2, 7, 2018, 3010, '2018-07-05'),
+(32, 2, 8, 2018, 3082, '2018-08-05'),
+(33, 2, 9, 2018, 2599, '2018-09-05'),
+(34, 2, 10, 2018, 3270, '2018-10-05'),
+(35, 2, 11, 2018, 2623, '2018-11-05'),
+(36, 2, 12, 2018, 2717, '2018-12-05');
 
 -- --------------------------------------------------------
 
@@ -40,7 +178,8 @@ CREATE TABLE `table_groups` (
 
 INSERT INTO `table_groups` (`id`, `name`, `description`) VALUES
 (1, 'admin', 'Administrator'),
-(2, 'members', 'General User');
+(2, 'user', 'General User'),
+(3, 'manager', 'manager');
 
 -- --------------------------------------------------------
 
@@ -383,6 +522,13 @@ CREATE TABLE `table_login_attempts` (
   `time` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `table_login_attempts`
+--
+
+INSERT INTO `table_login_attempts` (`id`, `ip_address`, `login`, `time`) VALUES
+(1, '::1', 'admin@fixl.com', 1568889836);
+
 -- --------------------------------------------------------
 
 --
@@ -410,7 +556,25 @@ INSERT INTO `table_menus` (`id`, `menu_id`, `name`, `link`, `list_id`, `icon`, `
 (23, 1, 'Group', 'admin/group', 'group_index', 'people', 1, 1, '-'),
 (24, 1, 'Setting', 'admin/setting', 'admin_setting', 'settings', 1, 1, '-'),
 (25, 24, 'Menu', 'admin/menus', 'menus_index', 'home', 1, 1, '-'),
-(31, 1, 'User', 'admin/user_management', 'user_management_index', 'people', 1, 1, '-');
+(31, 1, 'User', 'admin/user_management', 'user_management_index', 'people', 1, 1, '-'),
+(32, 2, 'Beranda', 'user/home', 'home_index', 'home', 1, 1, '-'),
+(33, 2, 'Produk', 'user/product', 'product_index', 'home', 1, 2, '-'),
+(37, 2, 'Prediksi', 'user/prediction/', 'prediction_index', 'home', 0, 4, '-'),
+(38, 2, 'Laporan', 'user/report', 'report_index', 'home', 1, 5, '-'),
+(39, 2, 'Data', 'user/', '-', 'home', 1, 3, '-'),
+(40, 39, 'Inventori', 'user/inventory', 'inventory_index', 'home', 1, 1, '-'),
+(41, 39, 'Penjualan', 'user/sale', 'sale_index', 'home', 1, 1, '-'),
+(42, 37, 'Inventori', 'user/prediction/inventory', 'prediction_inventory', 'home', 0, 1, '-'),
+(43, 37, 'Penjualan', 'user/prediction/sale', 'prediction_sale', 'home', 1, 1, '-'),
+(44, 3, 'Beranda', 'user/home', 'home_index', 'home', 1, 1, '-'),
+(45, 3, 'Produk', 'user/product', 'product_index', 'home', 1, 2, '-'),
+(46, 3, 'Data', 'user/', '-', 'home', 1, 3, '-'),
+(47, 46, 'Inventori', 'user/inventory', 'inventory_index', 'home', 1, 1, '-'),
+(48, 46, 'Penjualan', 'user/sale', 'sale_index', 'home', 1, 2, '-'),
+(49, 3, 'Prediksi', 'manager/', '-', 'home', 1, 4, '-'),
+(50, 49, 'Inventori', 'user/prediction/inventory', 'prediction_inventory', 'home', 0, 1, '-'),
+(51, 49, 'Penjualan', 'user/prediction/sale', 'prediction_sale', 'home', 1, 2, '-'),
+(52, 3, 'Laporan', 'user/report', 'report_index', 'home', 1, 5, '-');
 
 -- --------------------------------------------------------
 
@@ -496,12 +660,34 @@ CREATE TABLE `table_users` (
 --
 
 INSERT INTO `table_users` (`id`, `group_id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `phone`, `image`) VALUES
-(1, 1, '127.0.0.1', 'admin@admin.com', '$2y$10$CquJ/t1YiAugcfD3gHyGDOIp/gJUOcqjXTXedjSJash9TYG.EQCmG', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1563603821, 1, 'Admin', 'istrator', '081342989185', 'USER_1_1557479031.jpg'),
-(2, 2, '::1', 'alan@gmail.com', '$2y$10$Kf7meZw9Pee/EIdtjjroL.Txatx8wUUGqO1ChoXtjTuq7DWXePJ8O', 'alan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1563601662, 1563601678, 1, 'alan', 'hetfield', '081342989185', '');
+(1, 1, '127.0.0.1', 'admin@admin.com', '$2y$10$CquJ/t1YiAugcfD3gHyGDOIp/gJUOcqjXTXedjSJash9TYG.EQCmG', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1568889846, 1, 'Admin', 'istrator', '081342989185', 'USER_1_1568688392.jpg'),
+(2, 2, '::1', 'admin@gmail.com', '$2y$10$MIefZA8pYS74hnO7LlBU8u.D/qexKH39s.TYvcdzb8tIa9Up2E1Z2', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1563601662, 1568889919, 1, 'admin', 'admin', '081342989185', 'USER_2_1568439487.png'),
+(3, 3, '::1', 'manager@gmail.com', '$2y$10$tdrKZ3Dwa7qf2Gszwz47/eK7Q7xMpDiO/CbKzoDnAu9K7WwemgbFK', 'manager@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1568441196, 1568892335, 1, 'manager', 'manager', '123443211234', 'USER_3_1568441323.png');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `inventory`
+--
+ALTER TABLE `inventory`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
+
+--
+-- Indexes for table `sale`
+--
+ALTER TABLE `sale`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `table_groups`
@@ -555,10 +741,28 @@ ALTER TABLE `table_users`
 --
 
 --
+-- AUTO_INCREMENT for table `inventory`
+--
+ALTER TABLE `inventory`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `sale`
+--
+ALTER TABLE `sale`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
 -- AUTO_INCREMENT for table `table_groups`
 --
 ALTER TABLE `table_groups`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `table_log`
@@ -570,13 +774,13 @@ ALTER TABLE `table_log`
 -- AUTO_INCREMENT for table `table_login_attempts`
 --
 ALTER TABLE `table_login_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `table_menus`
 --
 ALTER TABLE `table_menus`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `table_profile`
@@ -594,11 +798,23 @@ ALTER TABLE `table_userprofiles`
 -- AUTO_INCREMENT for table `table_users`
 --
 ALTER TABLE `table_users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `inventory`
+--
+ALTER TABLE `inventory`
+  ADD CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
+
+--
+-- Constraints for table `sale`
+--
+ALTER TABLE `sale`
+  ADD CONSTRAINT `sale_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --
 -- Constraints for table `table_users`

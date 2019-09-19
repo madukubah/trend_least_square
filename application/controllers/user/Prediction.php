@@ -71,7 +71,7 @@ class Prediction extends User_Controller {
 	}
 
 	public function trend_projection(  )
-	{
+	{	
 			$product_id = $this->input->get( 'product_id' );
 			$start_month = $this->input->get( 'start_month' );
 			$end_month = $this->input->get( 'end_month' );

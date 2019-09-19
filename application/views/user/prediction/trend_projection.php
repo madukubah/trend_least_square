@@ -85,7 +85,7 @@
                       <br>
                       <div class="card">
                           <div class="header">
-                              <h2>CHART</h2>
+                              <h2>Grafik Prediksi</h2>
                           </div>
                           <div class="body"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
                               <canvas id="line_chart" height="347" width="694" style="display: block; width: 694px; height: 347px;"></canvas>
