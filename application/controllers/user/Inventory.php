@@ -127,6 +127,7 @@ class Inventory extends User_Controller {
 			$data['month'] = $this->input->post( 'month' );
 			$data['year'] = $this->input->post( 'year' );
 			$data['quantity'] = $this->input->post( 'quantity' );
+			$data["date"] = $data["year"]."-".$data["month"]."-5";
 			// echo var_dump( $data );
 			// return ;
 			if( $this->m_inventory->create( $data ) ){

@@ -93,12 +93,15 @@ class Prediction_services
       "start_month" => array(
 			  'type' => 'select',
 				'label' => "Dari Bulan",
-				'options' => [1 => "Januari"],
+				'options' => Util::MONTH,
+				// 'options' => [1 => "Januari"],
       ),
       "start_year" => array(
 			  'type' => 'select',
 				'label' => "Tahun",
-				'options' => [2016 => "2016"],
+				'options' => Util::YEAR,
+				'selected' => 2016
+				// 'options' => [2016 => "2016"],
       ),
       "end_month" => array(
 			  'type' => 'select',
@@ -193,6 +196,50 @@ class Prediction_services
 
 			);
 		return $data;
+	}
+
+	public function get_prediction_chart( $a, $b, $data )
+	{
+		$data_prediction = array();
+
+		$i = 0;
+		foreach(  $data as $item )
+		{
+			if( $i == count( $data ) - 1 ) break;
+
+			$data_prediction[]=  $a +( $b * $item->_x );
+			$i++;
+		}
+		
+		return $data_prediction;
+	}
+	public function get_data_chart( $data )
+	{
+		$data_real = array();
+		$data_x = array();
+
+		$i = 0;
+		foreach(  $data as $item )
+		{
+			if( $i == count( $data ) - 1 ) break;
+
+			$data_real[]= (double) $item->_y;
+			$data_x[]= Util::MONTH[ $item->month ] . " " . $item->year ;
+			// $data_x[]= "".$item->_x;
+			$i++;
+		}
+		// if( count( $data_x ) % 2 == 0 )
+		// {
+		// 	$data_x[]= "asdf".( $data_x[ count( $data_x ) -1 ] + 2 ); //even 
+		// }
+		// else
+		// {
+		// 	$data_x[]= "asdf".( $data_x[ count( $data_x ) -1 ] + 1 ); //odd 
+		// }
+		return array(
+			"data_real" => $data_real,
+			"data_x" 	=> $data_x,
+		);
 	}
 }
 ?>

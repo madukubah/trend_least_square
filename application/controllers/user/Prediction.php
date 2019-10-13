@@ -142,8 +142,9 @@ class Prediction extends User_Controller {
 			$this->data[ "next_month_prediction" ] = $next_month_prediction;
 			// echo var_dump( $data_prediction->month );
 			// return;
-			$this->data[ "data_real" ] = $this->get_data_chart( $prediction )["data_real"];
-			$this->data[ "data_x" ] = $this->get_data_chart( $prediction )["data_x"];
+			$this->data[ "data_real" ] = $this->services->get_data_chart( $prediction )["data_real"];
+			$this->data[ "data_x" ] = $this->services->get_data_chart( $prediction )["data_x"];
+			$this->data[ "data_x" ] []= Util::MONTH[ $next_month_prediction->month ] . " " . $next_month_prediction->year ;
 			//  return ;
 			$result = $prediction[ count( $prediction  ) -1 ];
 			$_n = count( $prediction  ) -1  ;
@@ -152,14 +153,14 @@ class Prediction extends User_Controller {
 			$b = $result->_xy / $result->_xx ;
 			$_y_accent = $a +( $b * $result->next_x ) ;
 
-			$this->data[ "data_prediction" ] = $this->get_prediction_chart( $a, $b, $prediction );
+			// $this->data[ "data_prediction" ] = $this->services->get_prediction_chart( $a, $b, $prediction );
+			$this->data[ "data_prediction" ] = $this->data[ "data_real" ];
 			$this->data[ "data_prediction" ] []=  $_y_accent;
 
 			$this->data[ "result" ] = $prediction[ count( $prediction  ) -1 ];
 			$this->data[ "_n" ] = count( $prediction  ) -1  ;
 
-		
-			$table = $this->load->view('templates/tables/plain_table_12', $table  , true);
+			$table = $this->load->view('user/prediction/plain_table_12', $table  , true);
 			$this->data[ "contents" ] = $table;
 			#################################################################3
 			
@@ -176,47 +177,47 @@ class Prediction extends User_Controller {
 			$this->render( "user/prediction/trend_projection" );
 	}
 
-	protected function get_prediction_chart( $a, $b, $data )
-	{
-		$data_prediction = array();
+	// protected function get_prediction_chart( $a, $b, $data )
+	// {
+	// 	$data_prediction = array();
 
-		$i = 0;
-		foreach(  $data as $item )
-		{
-			if( $i == count( $data ) - 1 ) break;
+	// 	$i = 0;
+	// 	foreach(  $data as $item )
+	// 	{
+	// 		if( $i == count( $data ) - 1 ) break;
 
-			$data_prediction[]=  $a +( $b * $item->_x );
-			$i++;
-		}
+	// 		$data_prediction[]=  $a +( $b * $item->_x );
+	// 		$i++;
+	// 	}
 		
-		return $data_prediction;
-	}
-	protected function get_data_chart( $data )
-	{
-		$data_real = array();
-		$data_x = array();
+	// 	return $data_prediction;
+	// }
+	// protected function get_data_chart( $data )
+	// {
+	// 	$data_real = array();
+	// 	$data_x = array();
 
-		$i = 0;
-		foreach(  $data as $item )
-		{
-			if( $i == count( $data ) - 1 ) break;
+	// 	$i = 0;
+	// 	foreach(  $data as $item )
+	// 	{
+	// 		if( $i == count( $data ) - 1 ) break;
 
-			$data_real[]= (double) $item->_y;
-			$data_x[]= "".$item->_x;
-			$i++;
-		}
-		if( count( $data_x ) % 2 == 0 )
-		{
-			$data_x[]= "".( $data_x[ count( $data_x ) -1 ] + 2 ); //even 
-		}
-		else
-		{
-			$data_x[]= "".( $data_x[ count( $data_x ) -1 ] + 1 ); //odd 
-		}
-		return array(
-			"data_real" => $data_real,
-			"data_x" 	=> $data_x,
-		);
-	}
+	// 		$data_real[]= (double) $item->_y;
+	// 		$data_x[]= "".$item->_x;
+	// 		$i++;
+	// 	}
+	// 	if( count( $data_x ) % 2 == 0 )
+	// 	{
+	// 		$data_x[]= "".( $data_x[ count( $data_x ) -1 ] + 2 ); //even 
+	// 	}
+	// 	else
+	// 	{
+	// 		$data_x[]= "".( $data_x[ count( $data_x ) -1 ] + 1 ); //odd 
+	// 	}
+	// 	return array(
+	// 		"data_real" => $data_real,
+	// 		"data_x" 	=> $data_x,
+	// 	);
+	// }
 
 }

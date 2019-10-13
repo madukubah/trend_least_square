@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2019 at 01:50 PM
+-- Generation Time: Oct 13, 2019 at 07:49 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 5.6.37
 
@@ -77,7 +77,8 @@ INSERT INTO `inventory` (`id`, `product_id`, `month`, `year`, `quantity`, `date`
 (33, 2, 9, 2018, 2500, '2018-09-05'),
 (34, 2, 10, 2018, 3200, '2018-10-05'),
 (35, 2, 11, 2018, 2600, '2018-11-05'),
-(36, 2, 12, 2018, 2700, '2018-12-05');
+(36, 2, 12, 2018, 2700, '2018-12-05'),
+(37, 2, 1, 2019, 2232, '2019-01-05');
 
 -- --------------------------------------------------------
 
@@ -158,7 +159,8 @@ INSERT INTO `sale` (`id`, `product_id`, `month`, `year`, `quantity`, `date`) VAL
 (33, 2, 9, 2018, 2599, '2018-09-05'),
 (34, 2, 10, 2018, 3270, '2018-10-05'),
 (35, 2, 11, 2018, 2623, '2018-11-05'),
-(36, 2, 12, 2018, 2717, '2018-12-05');
+(36, 2, 12, 2018, 2717, '2018-12-05'),
+(38, 2, 1, 2019, 2222, '2019-01-05');
 
 -- --------------------------------------------------------
 
@@ -522,13 +524,6 @@ CREATE TABLE `table_login_attempts` (
   `time` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `table_login_attempts`
---
-
-INSERT INTO `table_login_attempts` (`id`, `ip_address`, `login`, `time`) VALUES
-(1, '::1', 'admin@fixl.com', 1568889836);
-
 -- --------------------------------------------------------
 
 --
@@ -662,7 +657,7 @@ CREATE TABLE `table_users` (
 INSERT INTO `table_users` (`id`, `group_id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `phone`, `image`) VALUES
 (1, 1, '127.0.0.1', 'admin@admin.com', '$2y$10$CquJ/t1YiAugcfD3gHyGDOIp/gJUOcqjXTXedjSJash9TYG.EQCmG', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1568889846, 1, 'Admin', 'istrator', '081342989185', 'USER_1_1568688392.jpg'),
 (2, 2, '::1', 'admin@gmail.com', '$2y$10$MIefZA8pYS74hnO7LlBU8u.D/qexKH39s.TYvcdzb8tIa9Up2E1Z2', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1563601662, 1568889919, 1, 'admin', 'admin', '081342989185', 'USER_2_1568439487.png'),
-(3, 3, '::1', 'manager@gmail.com', '$2y$10$tdrKZ3Dwa7qf2Gszwz47/eK7Q7xMpDiO/CbKzoDnAu9K7WwemgbFK', 'manager@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1568441196, 1568892335, 1, 'manager', 'manager', '123443211234', 'USER_3_1568441323.png');
+(3, 3, '::1', 'manager@gmail.com', '$2y$10$tdrKZ3Dwa7qf2Gszwz47/eK7Q7xMpDiO/CbKzoDnAu9K7WwemgbFK', 'manager@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1568441196, 1570935942, 1, 'manager', 'manager', '123443211234', 'USER_3_1568441323.png');
 
 --
 -- Indexes for dumped tables
@@ -744,7 +739,7 @@ ALTER TABLE `table_users`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -756,7 +751,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `sale`
 --
 ALTER TABLE `sale`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `table_groups`
@@ -774,7 +769,7 @@ ALTER TABLE `table_log`
 -- AUTO_INCREMENT for table `table_login_attempts`
 --
 ALTER TABLE `table_login_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `table_menus`

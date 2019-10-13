@@ -222,6 +222,7 @@ class M_sale extends MY_Model
   {
       $this->select( $this->table.'.*');
       $this->select( 'product.name as product_name');
+      $this->select( 'CONCAT( '.$this->table.'.month, " ", '.$this->table.'.year ) as month_year');
       $this->select( 'sale.quantity as _y');
       $this->select( '0 as _x');
       $this->select( '0 as _xx');

@@ -191,7 +191,11 @@ class Report extends User_Controller {
 			// echo var_dump( $table2 );return;
 			$table1 = $this->load->view('templates/tables/plain_table_12', $table  , true);
 			$table2 = $this->load->view('templates/tables/plain_table_12', $table2  , true);
-			$this->data[ "contents" ] = $table1."<br><h5>Prediksi</h5>".$table2 ;
+
+			if( $context == "inventory" ) $table2="";
+			else $table2 = "<br><h5>Prediksi</h5>".$table2 ;
+
+			$this->data[ "contents" ] = $table1.$table2;
 			$this->data[ "contents" ].= '<br><br><a href="http://localhost/TLS/user/report/print_trend_projection?product_id=2&context='.$_type__[ $context ].'&start_month=1&start_year=2016&end_month=2&end_year=2019" class="btn btn-bold btn-primary btn-sm " style="margin-left: 5px;" >Cetak</a>';
 			
 			// return;
@@ -386,19 +390,7 @@ class Report extends User_Controller {
 			$table2 = $this->load->view('templates/tables/plain_table_12', $table2  , true);
 			$this->data[ "contents" ] = $table1."<br><h5>Prediksi</h5>".$table2 ;
 			$this->data[ "contents" ].= '<br><br><a href="http://localhost/TLS/user/report/print_trend_projection?product_id=2&context='.$_type[ $context ].'&start_month=1&start_year=2016&end_month=2&end_year=2019" class="btn btn-bold btn-primary btn-sm " style="margin-left: 5px;" >Cetak</a>';
-			// return;
-			#################################################################3
-			// $alert = $this->session->flashdata('alert');
-			// $this->data["key"] = $this->input->get('key', FALSE);
-			// $this->data["alert"] = (isset($alert)) ? $alert : NULL ;
-			// $this->data["current_page"] = $this->current_page;
-			// $this->data["block_header"] = "Data ".$_type[ $context ]." ".$product->name ;
-			// $this->data["header"] = "Data ".$_type[ $context ]." ".$product->name ;
-			// $this->data["sub_header"] = 'Klik Tombol Action Untuk Aksi Lebih Lanjut';
-			// $this->render( "templates/contents/plain_content" );
-
-			// return;
-			#################################################################3
+			
 			$this->data[ "rows" ] 	= $prediction;
 			$this->data[ "next_month_prediction" ] = [ $next_month_prediction ];			
 			$this->data[ "header" ] = $service_2->table_config_no_action( $this->current_page )['header'];
