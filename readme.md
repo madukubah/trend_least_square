@@ -1,5 +1,8 @@
 ## trend least square
 kuadrat terkecil atau yang biasa disebut sebagai metode least square adalah metode peramalan yang menggunakan persamaan linear untuk menemukan garis paling sesuai untuk kumpulan data lampau guna meramalkan data di masa depan.
+##rumus
+![Screenshot](OVERVIEW/5.PNG)
+![Screenshot](OVERVIEW/6.PNG)
 # Penggunaan
 1. login dengan menggunakan Username : `manager@gmail.com`,  pass : `manager`
 ![Screenshot](OVERVIEW/1.PNG)
@@ -12,3 +15,5 @@ kuadrat terkecil atau yang biasa disebut sebagai metode least square adalah meto
 
 # hasil
 ![Screenshot](OVERVIEW/4.PNG)
+
+
