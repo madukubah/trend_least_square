@@ -128,3 +128,14 @@ kode prediksi :
 		return $data;
 	}
 ```
+```
+$prediction = $this->services->even_prediction( HASIL_QUERY );
+$result = $prediction[ count( $prediction  ) -1 ];
+$_n = count( $prediction  ) -1  ;
+$x = $result->next_x;
+$a = $result->_y / $_n;
+$b = $result->_xy / $result->_xx ;
+$_y_accent = $a +( $b * $result->next_x ) ;
+
+```
+
