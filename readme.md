@@ -18,4 +18,7 @@ kuadrat terkecil atau yang biasa disebut sebagai metode least square adalah meto
 # hasil
 ![Screenshot](OVERVIEW/4.PNG)
 
+studi kasus : PT Pinus Merah Abadi ( http://pinusmerahabadi.co.id/ )
+
+
 
