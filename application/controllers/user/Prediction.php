@@ -25,15 +25,21 @@ class Prediction extends User_Controller {
 	public function sale()
 	{
 		#################################################################3
-		$form_data_1 = $this->services->get_form_data( "sale" )[0];
+		$form_data_1 = $this->services->get_form_data_predict( "sale" )[0];
 		$form_data_1 = $this->load->view('templates/form/bsb_form', $form_data_1 , TRUE ) ;
 
-		$form_data_2 = $this->services->get_form_data( "sale" )[1];
+		$form_data_2 = $this->services->get_form_data_predict( "sale" )[1];
 		$form_data_2 = $this->load->view('templates/form/bsb_form_6', $form_data_2 , TRUE ) ;
+
+		$form_data_3 = $this->services->get_form_data_predict( "sale" )[2];
+		$form_data_3 = $this->load->view('templates/form/bsb_form_6', $form_data_3 , TRUE ) ;
 			
-		$this->data[ "contents" ] = $form_data_1.$form_data_2;
+		$this->data[ "contents" ] = $form_data_1.$form_data_2;//.$form_data_3;
 
 		// return;
+
+		$this->data[ "months" ] = Util::MONTH;//.$form_data_3;
+
 		#################################################################3
 		$alert = $this->session->flashdata('alert');
 		$this->data["key"] = $this->input->get('key', FALSE);
@@ -78,12 +84,25 @@ class Prediction extends User_Controller {
 			$start_year = $this->input->get( 'start_year' );
 			$end_year = $this->input->get( 'end_year' );
 
+			$end_month_2 = $this->input->get( 'end_month_2' );
+			$end_year_2 = $this->input->get( 'end_year_2' );
+			// echo $end_month_2;
+
 			$context = $this->input->get( 'context' );
 
 			$product = $this->m_product->product( $product_id )->row();
 
+			$timestamp_1 = strtotime( $end_year."-".$end_month."-20" );
+			$timestamp_2 = strtotime( $end_year_2."-".$end_month_2."-20" );
+
 			$start_date = $start_year."-".$start_month."-1";
 			$end_date 	= $end_year."-".$end_month."-20";
+
+			if( $timestamp_1 >= $timestamp_2 )
+			{
+				$this->session->set_flashdata('alert', $this->alert->set_alert( Alert::DANGER, "Data Kosong / Inputan Tidak Valid !" ) );
+				redirect( site_url($this->current_page.$context )  );
+			}
 			// echo var_dump( $data );
 			#################################################################3
 			$table = $this->services->table_config( $this->current_page );
@@ -144,6 +163,7 @@ class Prediction extends User_Controller {
 			// return;
 			$this->data[ "data_real" ] = $this->services->get_data_chart( $prediction )["data_real"];
 			$this->data[ "data_x" ] = $this->services->get_data_chart( $prediction )["data_x"];
+			// TODO : tambahkan array untuk treshold
 			$this->data[ "data_x" ] []= Util::MONTH[ $next_month_prediction->month ] . " " . $next_month_prediction->year ;
 			//  return ;
 			$result = $prediction[ count( $prediction  ) -1 ];
@@ -153,14 +173,66 @@ class Prediction extends User_Controller {
 			$b = $result->_xy / $result->_xx ;
 			$_y_accent = $a +( $b * $result->next_x ) ;
 
+			// var_dump( $this->data[ "next_month_prediction" ] );die;
+
+			$prediction_month = $this->data[ "next_month_prediction" ]->month;
+			$prediction_year = $this->data[ "next_month_prediction" ]->year;
+
+			
 			// $this->data[ "data_prediction" ] = $this->services->get_prediction_chart( $a, $b, $prediction );
 			$this->data[ "data_prediction" ] = $this->data[ "data_real" ];
+
+			// TODO : tambahkan array untuk treshold
 			$this->data[ "data_prediction" ] []=  $_y_accent;
+
+			$data_table_predition = array(
+				(object) array(
+					"pos" => Util::MONTH[ $prediction_month ] . " " . $prediction_year ,
+					"_x" => $x,
+					"_a" => $a,
+					"_b" => $b,
+					"_y_accent" => $_y_accent ,
+				)
+			);
+
+			$even_odd = array(
+				2, 1
+			);
+
+			$curr_x = $x;
+			while( !( $prediction_month == $end_month_2 && $prediction_year == $end_year_2 ) )
+			{
+				if( $prediction_month == 12 )
+				{
+					$prediction_month = 1;
+					$prediction_year += 1;
+				}
+				$prediction_month ++;
+
+				$curr_x += $even_odd[ $_n % 2 ];
+				$this->data[ "data_x" ] []= Util::MONTH[ $prediction_month ] . " " . $prediction_year ;
+				$data_table_predition []= (object) array(
+					"pos" => Util::MONTH[ $prediction_month ] . " " . $prediction_year ,
+					"_x" => $curr_x,
+					"_a" => $a,
+					"_b" => $b,
+					"_y_accent" => $a +( $b * $curr_x ) ,
+				);
+				$this->data[ "data_prediction" ] []=  $a +( $b * $curr_x);
+				
+			}
+
+			$table_prediction = $this->services->table_prediction_config("");
+			$table_prediction[ "rows" ] = $data_table_predition;
+			$table_prediction = $this->load->view('user/prediction/plain_table_12', $table_prediction  , true);
+			$this->data[ "table_prediction" ] = $table_prediction;
+			// var_dump( $data_table_predition );die;
+
 
 			$this->data[ "result" ] = $prediction[ count( $prediction  ) -1 ];
 			$this->data[ "_n" ] = count( $prediction  ) -1  ;
 
-			$table = $this->load->view('user/prediction/plain_table_12', $table  , true);
+			$table = $this->load->view('templates/tables/plain_table_12', $table  , true);
 			$this->data[ "contents" ] = $table;
 			#################################################################3
 			
@@ -170,54 +242,11 @@ class Prediction extends User_Controller {
 			$this->data["key"] = $this->input->get('key', FALSE);
 			$this->data["alert"] = (isset($alert)) ? $alert : NULL ;
 			$this->data["current_page"] = $this->current_page;
-			$this->data["block_header"] = $header;
+			$this->data["block_header"] = "";
 			$this->data["header"] = $header;
-			$this->data["sub_header"] = $header;
+			$this->data["sub_header"] = "";
 
 			$this->render( "user/prediction/trend_projection" );
 	}
-
-	// protected function get_prediction_chart( $a, $b, $data )
-	// {
-	// 	$data_prediction = array();
-
-	// 	$i = 0;
-	// 	foreach(  $data as $item )
-	// 	{
-	// 		if( $i == count( $data ) - 1 ) break;
-
-	// 		$data_prediction[]=  $a +( $b * $item->_x );
-	// 		$i++;
-	// 	}
-		
-	// 	return $data_prediction;
-	// }
-	// protected function get_data_chart( $data )
-	// {
-	// 	$data_real = array();
-	// 	$data_x = array();
-
-	// 	$i = 0;
-	// 	foreach(  $data as $item )
-	// 	{
-	// 		if( $i == count( $data ) - 1 ) break;
-
-	// 		$data_real[]= (double) $item->_y;
-	// 		$data_x[]= "".$item->_x;
-	// 		$i++;
-	// 	}
-	// 	if( count( $data_x ) % 2 == 0 )
-	// 	{
-	// 		$data_x[]= "".( $data_x[ count( $data_x ) -1 ] + 2 ); //even 
-	// 	}
-	// 	else
-	// 	{
-	// 		$data_x[]= "".( $data_x[ count( $data_x ) -1 ] + 1 ); //odd 
-	// 	}
-	// 	return array(
-	// 		"data_real" => $data_real,
-	// 		"data_x" 	=> $data_x,
-	// 	);
-	// }
 
 }

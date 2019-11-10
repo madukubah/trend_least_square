@@ -23,6 +23,18 @@ class Prediction_services
       );
     return $table;
   }
+
+  public function table_prediction_config( $_page, $start_number = 1 )
+  {
+      $table["header"] = array(
+        'pos' => 'Bulan',
+        '_x' => 'x',
+        '_a' => 'a',
+        '_b' => 'b',
+        '_y_accent' => ' a + b ( x )',
+      );
+    return $table;
+  }
   public function validation_config( ){
     $config = array(
         array(
@@ -49,7 +61,88 @@ class Prediction_services
     
     return $config;
   }
+  /**
+	 * get_form_data
+	 *
+	 * @return array
+	 * @author madukubah
+	 **/
+	public function get_form_data_predict( $context )
+	{
+    $this->load->model('m_product');
 
+		$products = $this->m_product->products()->result();
+
+		$product_options ="";
+		foreach($products as $n => $item)
+		{	
+			$product_options .= form_radio("product_id", $item->id ,set_checkbox('product_id', $item->id), ' id="basic_checkbox_'.$n.'"');
+			$product_options .= '<label for="basic_checkbox_'.$n.'"> '. $item->name .'</label><br>';
+		}
+		$data['products'] = $product_options;
+		$product_select = array();
+		foreach( $products as $product )
+		{
+			if( $product->id == 1 ) continue;
+			$product_select[ $product->id ] = $product->name;
+		}
+
+		$_data[0]["form_data"] = array(
+			"product_id" => array(
+				'type' => 'select',
+				'label' => "Produk",
+				'options' => $product_select,
+				// 'selected' => $this->product_id,
+			),
+			"context" => array(
+						'type' => 'hidden',
+				'label' => "Produk",
+				'value' => $context
+			),
+		);
+		$_data[1]["form_data"] = array(
+			"start_month" => array(
+					'type' => 'select',
+						'label' => "Dari Bulan",
+						// 'options' => Util::MONTH,
+						'options' => [1 => "Januari"],
+			),
+			"start_year" => array(
+					'type' => 'select',
+						'label' => "Tahun",
+						// 'options' => Util::YEAR,
+						// 'selected' => 2016
+						'options' => [2016 => "2016"],
+			),
+			"end_month" => array(
+				'type' => 'select',
+				'label' => "Sampai Bulan",
+				'options' => Util::MONTH,
+				'selected' => 2,
+			),
+			
+			"end_year" => array(
+					'type' => 'select',
+					'label' => "Tahun",
+					'options' => Util::YEAR,
+					'selected' => date("Y"),
+			),
+		);
+		$_data[2]["form_data"] = array(
+			"end_month_2" => array(
+				'type' => 'select',
+				'label' => "Ramalan Bulan",
+				'options' => Util::MONTH,
+				'selected' => 2,
+			),
+			"end_year_2" => array(
+				'type' => 'select',
+				'label' => "Ramalan Tahun",
+				'options' => Util::YEAR,
+			),
+		);
+		return $_data;
+  }
   /**
 	 * get_form_data
 	 *

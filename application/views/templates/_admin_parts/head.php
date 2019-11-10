@@ -34,6 +34,8 @@
   <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
   <link href="<?php echo base_url('assets/')?>css/admin/themes/all-themes.css" rel="stylesheet" />
 
+  <!-- Jquery Core Js -->
+ <script src="<?php echo base_url('assets/')?>vendor/jquery/jquery.min.js"></script>
 
 </head>
 

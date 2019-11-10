@@ -50,6 +50,7 @@
                       <?php echo ( isset( $pagination_links )  ) ? $pagination_links : '' ;  ?>
                       <!--  -->
                       <h3>Hasil</h3>
+
                       <div  class="table-responsive ">
                         <table class="table table-striped table-bordered table-hover  ">
                           <tr>
@@ -78,10 +79,13 @@
                           </tr>
                         </table>
                       </div>
-                      <h3>Kesimpulan</h3>
+
+                      <?php echo ( isset( $table_prediction )  ) ? $table_prediction : '' ;  ?>
+
+                      <!-- <h3>Kesimpulan</h3>
                       <h5>
                         Prediksi <?php echo $inference ?> untuk bulan selanjutnya ( <?php echo Util::MONTH[ $next_month_prediction->month ]." ".$next_month_prediction->year ?> ) adalah <?php echo $_y_accent ?>
-                      </h5>
+                      </h5> -->
                       <br>
                       <div class="card">
                           <div class="header">

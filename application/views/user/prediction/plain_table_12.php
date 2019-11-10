@@ -23,7 +23,7 @@
                     <?php 
                         $attr = "";
                         if( is_numeric( $row->$key ) && ( $key != 'phone' && $key != 'username' && $key != 'code' && $key != 'year' ) )
-                            $attr = number_format( $row->$key );
+                            $attr = number_format( $row->$key, 2 );
                         else
                             $attr = $row->$key ;
                         if( $key == 'date' || $key == 'create_date' || $key == 'time' )

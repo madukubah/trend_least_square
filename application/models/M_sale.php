@@ -232,12 +232,9 @@ class M_sale extends MY_Model
         'product.id = sale.product_id',
         'inner'
       );
-      // $this->where( $this->table.'.month >= ', $start_month);
-      // $this->where( $this->table.'.month <= ', $end_month);
       $this->where( $this->table.'.product_id', $product_id);
 
       $this->where( $this->table.'.date BETWEEN "'.$start_date.'" AND "'.$end_date.'" ', "");
-      // $this->order_by($this->table.'.id', 'asc');
       $this->order_by( "sale.year asc , sale.month asc", "");
       return $this->fetch_data();
   }
