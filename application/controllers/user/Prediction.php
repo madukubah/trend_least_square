@@ -206,11 +206,11 @@ class Prediction extends User_Controller {
 				{
 					$prediction_month = 1;
 					$prediction_year += 1;
-				}
-				$prediction_month ++;
+				}else
+					$prediction_month ++;
 
 				$curr_x += $even_odd[ $_n % 2 ];
-				$this->data[ "data_x" ] []= Util::MONTH[ $prediction_month ] . " " . $prediction_year ;
+				// $this->data[ "data_x" ] []= Util::MONTH[ $prediction_month ] . " " . $prediction_year ;
 				$data_table_predition []= (object) array(
 					"pos" => Util::MONTH[ $prediction_month ] . " " . $prediction_year ,
 					"_x" => $curr_x,
@@ -218,9 +218,11 @@ class Prediction extends User_Controller {
 					"_b" => $b,
 					"_y_accent" => $a +( $b * $curr_x ) ,
 				);
-				$this->data[ "data_prediction" ] []=  $a +( $b * $curr_x);
-				
+				// $this->data[ "data_prediction" ] []=  $a +( $b * $curr_x);
 			}
+
+			$this->data[ "data_x" ] []= Util::MONTH[ $prediction_month ] . " " . $prediction_year ;
+			$this->data[ "data_prediction" ] []= $data_table_predition[ count( $data_table_predition ) ]->_y_accent ;// $a +( $b * $curr_x);
 
 			$table_prediction = $this->services->table_prediction_config("");
 			$table_prediction[ "rows" ] = $data_table_predition;
